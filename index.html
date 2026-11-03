@@ -561,21 +561,38 @@
         }
 
         // دالة جلب العضوات الفريدة بدون تكرار إجمالياً حسب الفريق المختار أو الكل
+        // دالة جلب العضوات وتجميع جميع الفرق التي تنتمي إليها كل طالبة
         function getUniqueTargetMembers() {
-            let uniqueMap = new Map();
+            let memberTeamsMap = new Map();
             let teamsToProcess = currentTeamId === 'ALL' 
                 ? TEAMS_DATA 
                 : TEAMS_DATA.filter(t => t.id === currentTeamId);
 
             teamsToProcess.forEach(team => {
                 team.members.forEach(memberName => {
-                    // تصفية حقل البحث أيضاً إذا وجد
                     if (!searchQuery || memberName.toLowerCase().includes(searchQuery)) {
-                        uniqueMap.set(memberName, { name: memberName, teamName: team.name, teamId: team.id });
+                        if (!memberTeamsMap.has(memberName)) {
+                            memberTeamsMap.set(memberName, []);
+                        }
+                        // إضافة اسم الفريق إلى قائمة فرق هذه العضوة إذا لم يكن مضافاً مسبقاً
+                        if (!memberTeamsMap.get(memberName).includes(team.name)) {
+                            memberTeamsMap.get(memberName).push(team.name);
+                        }
                     }
                 });
             });
-            return Array.from(uniqueMap.values());
+
+            // تحويل الخريطة إلى مصفوفة تناسب العرض
+            let list = [];
+            memberTeamsMap.forEach((teams, name) => {
+                list.push({
+                    name: name,
+                    teamNames: teams.join(' ، '), // تجميع الأسماء مفصولة بفاصلة
+                    teamName: teams[0] // للاستخدام الافتراضي
+                });
+            });
+
+            return list;
         }
 
         function updateHeaderStats() {
