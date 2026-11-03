@@ -758,7 +758,7 @@
 
             let html = '';
             membersList.forEach((item, index) => {
-                const voteKey = sanitizeKey(`${item.name}_${activePollId}`);
+                const voteKey = sanitizeKey(`${item.names}_${activePollId}`);
                 const currentStatus = activePollId ? votes[voteKey] : '';
 
                 html += `
