@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة متابعة الفِرق</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (v9 Compat libraries for fast CDN integration) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        body { font-family: 'Tajawal', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-black text-slate-900 mb-2">منصة متابعة الفِرق</h1>
+            <div id="sync-status" class="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-bold border border-amber-200">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                جاري الاتصال بالسحاب...
+            </div>
+        </header>
+
+        <!-- Live Analytics Dashboard -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">إجمالي الحضور (حضرت)</p>
+                    <h3 id="stat-present" class="text-2xl font-black text-emerald-600 mt-1">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 font-bold">✓</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">سماعه مسجلاً</p>
+                    <h3 id="stat-recorded" class="text-2xl font-black text-amber-600 mt-1">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 font-bold">🎧</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">لم تحضر</p>
+                    <h3 id="stat-absent" class="text-2xl font-black text-rose-600 mt-1">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600 font-bold">✕</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-slate-500 font-medium">نسبة التفاعل الإجمالية</p>
+                    <h3 id="stat-percentage" class="text-2xl font-black text-indigo-600 mt-1">0%</h3>
+                </div>
+                <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 font-bold">📊</div>
+            </div>
+        </div>
+
+        <!-- Teams Navigation Tabs -->
+        <div class="flex flex-wrap gap-2 justify-center mb-8" id="teams-tabs">
+            <!-- Tabs generated via JS -->
+        </div>
+
+        <!-- Team Content Container -->
+        <div id="team-content" class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl border border-slate-100 text-center animate-in fade-in zoom-in duration-200">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 font-bold">?</div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">تأكيد الهوية</h3>
+            <p id="confirm-message" class="text-slate-600 mb-6">هل أنتِ متأكدة من تسجيل الحالة باسم الطالبة: <span id="modal-member-name" class="font-bold text-indigo-600"></span>؟</p>
+            <div class="flex gap-3">
+                <button id="confirm-yes" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition-colors">نعم، تأكيد</button>
+                <button id="confirm-no" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-xl transition-colors">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyATwL9bOIqBxeMq-KGDT3AUcQnQZazK02Y",
+            authDomain: "sarah-almoslihin-teams.firebaseapp.com",
+            databaseURL: "https://sarah-almoslihin-teams-default-rtdb.firebaseio.com",
+            projectId: "sarah-almoslihin-teams",
+            storageBucket: "sarah-almoslihin-teams.firebasestorage.app",
+            messagingSenderId: "597692585239",
+            appId: "1:597692585239:web:1a769711eaa0b5d1869352",
+            measurementId: "G-E6Z0QSF01G"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const votesRef = database.ref('attendance_votes');
+
+        const teamsData = {
+            "التعليق الصوتي": ["صفاء ميلاد", "مها عيد", "مرام الكيلاني", "نورا العرموطي", "ناريمان نويبات"],
+            "إبانة": ["زينب يحيى", "نهى إبراهيم", "زهراء موحى", "سارة بكر", "ندى أحمد", "عائشة بنت أحمد", "هاجر أشرف"],
+            "الأبحاث": ["روان عمر", "منيرة", "مريم سردار", "رفيدة مصطفى", "مرام قنديل", "عائشة مصطفى", "هند كنج", "حفصة أم مريم", "ماجدة البلوشي", "فاطمة عبد الله", "رضوى", "أسماء عليان", "زينب عز الدين", "زينب هاشم", "زينب بنت أبي يحيى", "ياسمين هلال", "بشائر محمد", "بلقيس طه"],
+            "المونتاج": ["نجوى ميهوبي", "فاطمة الزهراء سعد", "رانيا مصطفى", "شيماء متيمن", "هاجر شيخ سليمان", "نزيهة عبد الغفور", "فلسطين موسى", "سندس عبد الموجود", "مروة تيسير", "نوره محمد", "أمل محمد", "بيان عثمان", "د.سارة حامد", "إسراء منصور للأقصى", "كاميليا ديداني", "علياء عبد الجليل", "يسرى الشّعيري"],
+            "الترجمة": ["حورية حمزاوي", "هند محمد كنج", "أفراح سالم", "نهال جاب الله", "كوثر لرزق", "أسماء عليان", "ريان البري", "آلاء عادل ياسين"],
+            "التصميم": ["فلسطين موسى", "هند محمود كنج", "إسراء منصور", "يسرى الشّعيري", "هبة أحمد", "عائشة", "أبرار أحمد", "بدور خطيب", "آيات الرّاوي", "شيماء باجود", "أسماء غنيم", "سهام خفش", "لمياء"],
+            "مِداد": ["آية العامري", "شيماء توفيق", "آلاء ياسين", "أبرار أحمد", "إحسان صلاح الدين", "أسماء حمودة", "أسماء غنيم", "بيان عثمان", "حفصة سعدودي", "رانيا زاغة", "رانية ابنان", "رفيدة مصطفى", "رقية الشربيني", "زينب بنت أبي يحيى", "فاطمة محمد", "مريم المغربي", "نجوى ميهوبي", "ندى سيفو", "هاجر شادي", "هدى مظفَّر", "هند محمد كنج", "يُسرى الشعيري"],
+            "الستهداء": ["حفصة الصالحي", "هاجر شيخ سليمان", "منى الشيخ", "مريم", "هاجر إبراهيم", "ندى أسعد", "عائشة مصطفى", "منى ابنة الضياء", "الشيماء متيمن", "صفاء ميلاد", "هاجر أشرف", "أسماء ركابي", "سهام خفش", "فاطمة خليفة", "مروة زيد", "ندى أحمد", "شيماء جابر", "الزهراء موحى", "حفصة سعدودي", "لينة محمد العطا", "يسرى باشا", "بلقيس طه", "أمل قرابللي", "سومية محمادي", "مروة تيسير"],
+            "أخبار الدار": ["بدور خطيب", "ريان البري", "هاجر إبراهيم", "هند كنج"]
+        };
+
+        let currentTeam = Object.keys(teamsData)[0];
+        let votes = {};
+        let pendingAction = null;
+
+        // Realtime Firebase Listener
+        votesRef.on('value', (snapshot) => {
+            votes = snapshot.val() || {};
+            const syncStatus = document.getElementById('sync-status');
+            syncStatus.className = "inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-200";
+            syncStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500"></span> متصل بالسحاب ومحدث';
+            render();
+        }, (error) => {
+            console.error("Database error:", error);
+            const syncStatus = document.getElementById('sync-status');
+            syncStatus.className = "inline-flex items-center gap-2 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-bold border border-rose-200";
+            syncStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500"></span> تفعيل Realtime Database مطلوب';
+        });
+
+        function sanitizeKey(key) {
+            return key.replace(/[.#$\[\]]/g, "_");
+        }
+
+        function renderTabs() {
+            const tabsContainer = document.getElementById('teams-tabs');
+            tabsContainer.innerHTML = '';
+            Object.keys(teamsData).forEach(team => {
+                const btn = document.createElement('button');
+                btn.className = `px-5 py-2.5 rounded-2xl font-bold transition-all text-sm ${currentTeam === team ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-100'}`;
+                btn.innerText = team;
+                btn.onclick = () => { currentTeam = team; render(); };
+                tabsContainer.appendChild(btn);
+            });
+        }
+
+        function renderContent() {
+            const container = document.getElementById('team-content');
+            const members = teamsData[currentTeam];
+
+            let html = `
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h2 class="text-2xl font-black text-slate-900">${currentTeam}</h2>
+                    <span class="text-xs font-bold px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full">عدد العضوات: ${members.length}</span>
+                </div>
+                <div class="divide-y divide-slate-100">
+            `;
+
+            members.forEach((member, index) => {
+                const rawKey = `${currentTeam}_${member}`;
+                const key = sanitizeKey(rawKey);
+                const status = votes[key] || '';
+
+                html += `
+                    <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-xs">${index + 1}</span>
+                            <span class="font-bold text-slate-700 text-lg">${member}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="promptVote('${key}', 'present', '${member}')" class="px-4 py-2 rounded-xl text-sm font-bold transition-all ${status === 'present' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}">حضرت</button>
+                            <button onclick="promptVote('${key}', 'recorded', '${member}')" class="px-4 py-2 rounded-xl text-sm font-bold transition-all ${status === 'recorded' ? 'bg-amber-600 text-white shadow-sm' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}">مسجلاً</button>
+                            <button onclick="promptVote('${key}', 'absent', '${member}')" class="px-4 py-2 rounded-xl text-sm font-bold transition-all ${status === 'absent' ? 'bg-rose-600 text-white shadow-sm' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'}">لم تحضر</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function updateStats() {
+            let present = 0, recorded = 0, absent = 0;
+            let totalMembers = 0;
+
+            Object.keys(teamsData).forEach(team => {
+                teamsData[team].forEach(member => {
+                    totalMembers++;
+                    const key = sanitizeKey(`${team}_${member}`);
+                    if (votes[key] === 'present') present++;
+                    else if (votes[key] === 'recorded') recorded++;
+                    else if (votes[key] === 'absent') absent++;
+                });
+            });
+
+            const percentage = totalMembers > 0 ? Math.round(((present + recorded) / totalMembers) * 100) : 0;
+
+            document.getElementById('stat-present').innerText = present;
+            document.getElementById('stat-recorded').innerText = recorded;
+            document.getElementById('stat-absent').innerText = absent;
+            document.getElementById('stat-percentage').innerText = `${percentage}%`;
+        }
+
+        function promptVote(key, status, memberName) {
+            pendingAction = { key, status };
+            document.getElementById('modal-member-name').innerText = memberName;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            document.getElementById('confirm-modal').classList.add('flex');
+        }
+
+        document.getElementById('confirm-yes').onclick = () => {
+            if (pendingAction) {
+                // Save to Cloud Database
+                votesRef.child(pendingAction.key).set(pendingAction.status);
+                closeModal();
+            }
+        };
+
+        document.getElementById('confirm-no').onclick = closeModal;
+
+        function closeModal() {
+            document.getElementById('confirm-modal').classList.remove('flex');
+            document.getElementById('confirm-modal').classList.add('hidden');
+            pendingAction = null;
+        }
+
+        function render() {
+            renderTabs();
+            renderContent();
+            updateStats();
+        }
+
+        render();
+    </script>
+</body>
+</html>
