@@ -89,7 +89,7 @@
                     </div>
                 </div>
 
-                <!-- Stats Badges -->
+                <!-- Stats Badges & Global Stats Trigger Button -->
                 <div class="flex flex-wrap items-center justify-center gap-3">
                     <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-center">
                         <span class="block text-xs text-emerald-200">إجمالي العضوات</span>
@@ -99,6 +99,11 @@
                         <span class="block text-xs text-emerald-200">المجالس / المهام</span>
                         <span id="stat-polls-count" class="text-xl font-black text-[#A3E635]">0</span>
                     </div>
+                    <!-- زر فتح نافذة الإحصائيات العامة -->
+                    <button onclick="toggleGlobalStatsModal(true)" class="bg-[#A3E635] hover:bg-[#86efac] text-emerald-950 px-4 py-3 rounded-xl font-extrabold text-xs shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-list text-sm"></i>
+                        <span>الإحصائيات العامة الشاملة</span>
+                    </button>
                 </div>
 
             </div>
@@ -146,23 +151,7 @@
 
             <!-- Dynamic Stats Container -->
             <div id="stats-breakdown-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-                <!-- Injected Dynamically Based on Poll Type (General vs Educational) -->
-            </div>
-        </div>
-
-        <!-- Global General Statistics (Simple Attendance Summary for All Members) -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#0F4C3A] flex items-center justify-center font-bold text-lg">
-                    <i class="fa-solid fa-clipboard-list"></i>
-                </div>
-                <div>
-                    <h3 class="font-black text-slate-800 text-base">الإحصائيات العامة (سجل حضور عضوات فريق وثاق)</h3>
-                    <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور لكل عضوة عبر كافة المجالس</p>
-                </div>
-            </div>
-            <div id="global-all-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pt-2">
-                <!-- All Members Summary Injected Dynamically -->
+                <!-- Injected Dynamically Based on Poll Type -->
             </div>
         </div>
 
@@ -201,6 +190,36 @@
         </div>
 
     </main>
+
+    <!-- Modal: Global Statistics Modal (نافذة الإحصائيات العامة المنبثقة) -->
+    <div id="global-stats-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-6 border border-emerald-100 relative space-y-4 max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#0F4C3A] flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-slate-800 text-base">الإحصائيات العامة الشاملة (سجل حضور عضوات فريق وثاق)</h3>
+                        <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور لكل عضوة عبر كافة المجالس</p>
+                    </div>
+                </div>
+                <button onclick="toggleGlobalStatsModal(false)" class="text-slate-400 hover:text-slate-600 transition p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div id="global-all-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 overflow-y-auto custom-scrollbar p-1 flex-grow">
+                <!-- All Members Summary Injected Dynamically -->
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 text-center">
+                <button onclick="toggleGlobalStatsModal(false)" class="px-6 py-2 rounded-xl bg-[#0F4C3A] text-white text-xs font-bold shadow hover:bg-[#155D48] transition">
+                    إغلاق النافذة
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-[#0F4C3A] text-white border-t border-[#155D48] py-6 mt-12">
@@ -307,7 +326,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const dbRef = database.ref('sarah_wathaq_team_v2_data');
+        const dbRef = database.ref('sarah_wathaq_team_v3_data');
 
         const MEMBERS_DATA = [
             "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
@@ -510,7 +529,7 @@
             }
         }
 
-        // إحصائيات عامة تشمل جميع العضوات المواظبات
+        // إحصائيات عامة داخل النافذة المنبثقة
         function renderGlobalStatistics() {
             const container = document.getElementById('global-all-members');
             let attendanceCountMap = {};
@@ -529,7 +548,7 @@
 
             let allMembersSummary = Object.entries(attendanceCountMap);
             if (allMembersSummary.length === 0 || polls.length === 0) {
-                container.innerHTML = '<div class="text-xs text-slate-400 col-span-full text-center py-2">لا توجد بيانات كافية بعد.</div>';
+                container.innerHTML = '<div class="text-xs text-slate-400 col-span-full text-center py-4">لا توجد بيانات كافية بعد.</div>';
                 return;
             }
 
@@ -545,6 +564,16 @@
                 `;
             });
             container.innerHTML = html;
+        }
+
+        function toggleGlobalStatsModal(show) {
+            const modal = document.getElementById('global-stats-modal');
+            if (show) {
+                renderGlobalStatistics();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
         }
 
         function renderPollsSection() {
