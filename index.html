@@ -129,7 +129,7 @@
             </button>
         </div>
 
-        <!-- Live Analytics & Statistics Dashboard -->
+        <!-- Live Analytics & Statistics Dashboard (المجلس المختار - كما كانت) -->
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-5">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
                 <div class="flex items-center gap-3">
@@ -201,7 +201,7 @@
                     </div>
                     <div>
                         <h3 class="font-black text-slate-800 text-base">الإحصائيات العامة الشاملة (سجل حضور عضوات فريق وثاق)</h3>
-                        <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور لكل عضوة عبر كافة المجالس</p>
+                        <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور لكل عضوة عبر كافة المجالس والمهام</p>
                     </div>
                 </div>
                 <button onclick="toggleGlobalStatsModal(false)" class="text-slate-400 hover:text-slate-600 transition p-2">
@@ -326,7 +326,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const dbRef = database.ref('sarah_wathaq_team_v3_data');
+        const dbRef = database.ref('sarah_wathaq_team_v4_data');
 
         const MEMBERS_DATA = [
             "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
@@ -439,6 +439,7 @@
             }
         }
 
+        // إحصائيات المجلس المختار (كما كانت تماماً في الواجهة)
         function renderLiveStatistics() {
             const pollId = document.getElementById('stats-poll-select').value;
             const container = document.getElementById('stats-breakdown-container');
