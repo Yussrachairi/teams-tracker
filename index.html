@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة متابعة وثاق</title>
+    <title>منصة متابعة فريق وثاق</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -71,14 +71,14 @@
                 <!-- Logo & Title -->
                 <div class="flex items-center gap-4 text-center md:text-right">
                     <div class="w-16 h-16 rounded-2xl bg-white/10 border-2 border-[#A3E635]/40 flex items-center justify-center p-2 shadow-inner">
-                        <i class="fa-solid fa-microphone text-3xl text-[#A3E635]"></i>
+                        <i class="fa-solid fa-[#A3E635] fa-users-rays text-3xl text-[#A3E635]"></i>
                     </div>
                     <div>
                         <div class="inline-block px-3 py-0.5 rounded-full bg-[#A3E635]/20 text-[#A3E635] text-xs font-bold mb-1 border border-[#A3E635]/30">
                             سراة المصلحين
                         </div>
                         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                           منصة متابعة فريق التعليق الصوتي
+                           منصة متابعة فريق وثاق
                         </h1>
                         <p class="text-emerald-100 text-xs sm:text-sm font-medium flex items-center gap-2 mt-1">
                             <span id="sync-status" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-500/20 text-amber-200 rounded-full text-[10px] border border-amber-300/30">
@@ -92,7 +92,7 @@
                 <!-- Stats Badges -->
                 <div class="flex flex-wrap items-center justify-center gap-3">
                     <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-center">
-                        <span class="block text-xs text-emerald-200">عضوات الفريق</span>
+                        <span class="block text-xs text-emerald-200">إجمالي العضوات</span>
                         <span id="stat-members-count" class="text-xl font-black text-[#A3E635]">0</span>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-center">
@@ -113,7 +113,7 @@
             <div class="relative flex-grow max-w-md">
                 <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                 <input type="text" id="search-input" oninput="handleSearch()" 
-                    placeholder="ابحثي عن اسم عضوة في الفريق..." 
+                    placeholder="ابحثي عن اسم عضوة في فريق وثاق..." 
                     class="w-full pr-11 pl-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] focus:ring-2 focus:ring-[#155D48]/20 text-sm transition">
             </div>
 
@@ -194,19 +194,19 @@
             </div>
         </div>
 
-        <!-- Global General Statistics (Top Attending Members Across All Polls) -->
-        <div class="bg-gradient-to-br from-emerald-900 to-[#0F4C3A] text-white p-6 rounded-2xl shadow-lg space-y-4">
-            <div class="flex items-center gap-3 border-b border-emerald-700 pb-3">
-                <div class="w-10 h-10 rounded-xl bg-white/10 text-[#A3E635] flex items-center justify-center font-bold text-lg border border-emerald-600">
-                    <i class="fa-solid fa-trophy"></i>
+        <!-- Global General Statistics (Simple Attendance Summary for All Members) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#0F4C3A] flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-clipboard-list"></i>
                 </div>
                 <div>
-                    <h3 class="font-black text-white text-base">الإحصائيات العامة والدعم القيادي (أكثر العضوات حضوراً وتفاعلاً)</h3>
-                    <p class="text-xs text-emerald-200">ترتيب العضوات الأكثر حضوراً (حضرته مباشرة أو نصفه) عبر كافة المجالس والمهام</p>
+                    <h3 class="font-black text-slate-800 text-base">الإحصائيات العامة (سجل حضور عضوات فريق وثاق)</h3>
+                    <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور (مباشرة أو نصفه) لكل عضوة عبر كافة المجالس</p>
                 </div>
             </div>
-            <div id="global-top-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
-                <!-- Top Members Injected Dynamically -->
+            <div id="global-all-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pt-2">
+                <!-- All Members Summary Injected Dynamically -->
             </div>
         </div>
 
@@ -232,7 +232,7 @@
             <div class="flex items-center justify-between">
                 <h3 class="font-extrabold text-[#0F4C3A] text-lg flex items-center gap-2">
                     <i class="fa-solid fa-users text-[#10B981]"></i>
-                    قائمة عضوات الفريق وتسجيل الحضور:
+                    قائمة عضوات فريق وثاق وتسجيل الحضور:
                 </h3>
                 <span id="members-count-badge" class="text-xs font-bold text-slate-500">
                     عرض 0 عضوة
@@ -250,7 +250,7 @@
     <footer class="bg-[#0F4C3A] text-white border-t border-[#155D48] py-6 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
             <p class="font-extrabold text-sm text-[#A3E635]">
-                منصة متابعة فريق التعليق الصوتي - سراة المصلحين © 2026
+                منصة متابعة فريق وثاق - سراة المصلحين © 2026
             </p>
             <p class="text-xs text-emerald-200/80">
                 جميع الحقوق محفوظة
@@ -322,21 +322,21 @@
                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#0F4C3A] flex items-center justify-center font-bold">
                     <i class="fa-solid fa-plus text-lg"></i>
                 </div>
-                <h3 class="font-extrabold text-slate-800 text-base">إرسال مهمة أو مجلس جديد للفريق</h3>
+                <h3 class="font-extrabold text-slate-800 text-base">إرسال مهمة أو مجلس جديد لفريق وثاق</h3>
             </div>
 
             <form id="poll-form" onsubmit="saveNewPoll(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">عنوان المجلس أو المهمة:</label>
                     <input type="text" id="poll-title-input" required 
-                        placeholder="مثال: مجلس تدريب الصوت الأسبوعي" 
+                        placeholder="مثال: المجلس التوجيهي العام" 
                         class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] text-sm">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">تفاصيل إضافية (اختياري):</label>
                     <textarea id="poll-desc-input" rows="2" 
-                        placeholder="أدخلي أية ملاحظات أو روابط إضافية..." 
+                        placeholder="أدخلي أية ملاحظات إضافية..." 
                         class="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] text-sm"></textarea>
                 </div>
 
@@ -360,7 +360,6 @@
 
     <!-- JavaScript Data & Firebase Logic -->
     <script>
-        // إعدادات Firebase الخاصة بمشروعكِ
         const firebaseConfig = {
             apiKey: "AIzaSyATwL9bOIqBxeMq-KGDT3AUcQnQZazK02Y",
             authDomain: "sarah-almoslihin-teams.firebaseapp.com",
@@ -372,39 +371,30 @@
             measurementId: "G-E6Z0QSF01G"
         };
 
-        // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        // قاعدة بيانات مستقلة ومخصصة لهذا الفريق بالأسماء الجديدة
-        const dbRef = database.ref('sarah_voice_team_data_v2');
+        const dbRef = database.ref('sarah_wathaq_team_data');
 
-        // قائمة العضوات الـ 38 الجديدة
-        const TEAM_DATA = {
-            id: 'voice',
-            name: 'فريق وثاق',
-            icon: 'fa-microphone',
-            members: [
-                "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
-                "دعاء منير", "هبة زكريا", "سهام خفش", "رحمة أبو الفرج", "بيان عثمان",
-                "رغد إسماعيل", "زينب عزالدين", "دانية أبرص", "هاجر سليمان", "فلسطين موسى",
-                "فاطمة إبراهيم", "هدىٰ مظفر", "نوره محمد", "أسماء غنيم", "إسراء للأقصى",
-                "سليمة نور", "منة الله حسين", "أسماء رُكابي", "حفصة سعدودي", "كاميليا ديداني",
-                "رميساء عبده", "أمينة شمارخة", "هاجر شادي", "مرام قنديل", "فاطمة الزهراء",
-                "رنيم الحضري", "أسمى السيد", "الشيماء مُتيمن", "ليلى الأمين", "روان عاطف",
-                "رضوى حبيب", "ملك الحسين", "نزيهة عبد الغفور"
-            ]
-        };
+        const MEMBERS_DATA = [
+            "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
+            "دعاء منير", "هبة زكريا", "سهام خفش", "رحمة أبو الفرج", "بيان عثمان",
+            "رغد إسماعيل", "زينب عزالدين", "دانية أبرص", "هاجر سليمان", "فلسطين موسى",
+            "فاطمة إبراهيم", "هدىٰ مظفر", "نوره محمد", "أسماء غنيم", "إسراء للأقصى",
+            "سليمة نور", "منة الله حسين", "أسماء رُكابي", "حفصة سعدودي", "كاميليا ديداني",
+            "رميساء عبده", "أمينة شمارخة", "هاجر شادي", "مرام قنديل", "فاطمة الزهراء",
+            "رنيم الحضري", "أسمى السيد", "الشيماء مُتيمن", "ليلى الأمين", "روان عاطف",
+            "رضوى حبيب", "ملك الحسين", "نزيهة عبد الغفور"
+        ];
 
         const INITIAL_POLLS = [
             {
                 id: 'poll_1',
-                title: 'المجلس الأول',
-                desc: 'متابعة الحضور وتطبيق التمارين',
+                title: 'متابعة حضور المجلس العام',
+                desc: 'تسجيل الحضور والتفاعل',
                 createdAt: new Date().toISOString()
             }
         ];
 
-        // App State
         let searchQuery = '';
         let polls = INITIAL_POLLS;
         let votes = {}; 
@@ -414,7 +404,6 @@
             return key.replace(/[.#$\[\]]/g, "_");
         }
 
-        // Initialize App & Realtime Cloud Sync
         window.addEventListener('DOMContentLoaded', () => {
             dbRef.on('value', (snapshot) => {
                 const data = snapshot.val() || {};
@@ -460,13 +449,13 @@
         }
 
         function getTargetMembers() {
-            return TEAM_DATA.members.filter(memberName => {
+            return MEMBERS_DATA.filter(memberName => {
                 return !searchQuery || memberName.toLowerCase().includes(searchQuery);
             });
         }
 
         function updateHeaderStats() {
-            document.getElementById('stat-members-count').textContent = TEAM_DATA.members.length;
+            document.getElementById('stat-members-count').textContent = MEMBERS_DATA.length;
             document.getElementById('stat-polls-count').textContent = polls.length;
         }
 
@@ -509,7 +498,7 @@
             const cntLess = document.getElementById('cnt-less');
             const cntAbsent = document.getElementById('cnt-absent');
 
-            const membersList = TEAM_DATA.members;
+            const membersList = MEMBERS_DATA;
 
             if (!pollId || membersList.length === 0) {
                 cntDirect.textContent = '0';
@@ -553,17 +542,17 @@
             listAbsent.innerHTML = absentArr.length ? absentArr.map(n => `<div class="bg-rose-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
         }
 
-        // إحصائيات عامة فيها أكثر من حضروا هذه المجالس
+        // إحصائيات عامة تشمل جميع عضوات فريق وثاق بشكل جدول وبسيط
         function renderGlobalStatistics() {
-            const container = document.getElementById('global-top-members');
+            const container = document.getElementById('global-all-members');
             
             let attendanceCountMap = {};
-            TEAM_DATA.members.forEach(name => {
+            MEMBERS_DATA.forEach(name => {
                 attendanceCountMap[name] = 0;
             });
 
             polls.forEach(poll => {
-                TEAM_DATA.members.forEach(name => {
+                MEMBERS_DATA.forEach(name => {
                     const voteKey = sanitizeKey(`${name}_${poll.id}`);
                     const voteObj = votes[voteKey];
                     if (voteObj && (voteObj.status === 'DIRECT' || voteObj.status === 'HALF')) {
@@ -572,28 +561,19 @@
                 });
             });
 
-            let sortedMembers = Object.entries(attendanceCountMap).sort((a, b) => b[1] - a[1]);
+            let allMembersSummary = Object.entries(attendanceCountMap);
 
-            if (sortedMembers.length === 0 || polls.length === 0) {
-                container.innerHTML = '<div class="text-xs text-emerald-200 col-span-full">لا توجد بيانات كافية للإحصائيات العامة بعد.</div>';
+            if (allMembersSummary.length === 0 || polls.length === 0) {
+                container.innerHTML = '<div class="text-xs text-slate-400 col-span-full text-center py-2">لا توجد بيانات كافية بعد.</div>';
                 return;
             }
 
             let html = '';
-            sortedMembers.slice(0, 6).forEach(([name, count], index) => {
-                let medalIcon = '';
-                if (index === 0) medalIcon = '👑';
-                else if (index === 1) medalIcon = '🥈';
-                else if (index === 2) medalIcon = '🥉';
-                else medalIcon = '✨';
-
+            allMembersSummary.forEach(([name, count]) => {
                 html += `
-                    <div class="bg-white/10 border border-white/15 p-3 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg">${medalIcon}</span>
-                            <span class="font-bold text-sm text-white">${name}</span>
-                        </div>
-                        <span class="text-xs font-black bg-[#A3E635] text-emerald-950 px-2 py-0.5 rounded-md">
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl flex items-center justify-between">
+                        <span class="font-bold text-xs text-slate-800">${name}</span>
+                        <span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-lg">
                             ${count} مجالس
                         </span>
                     </div>
@@ -618,7 +598,7 @@
                 html += `
                     <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-center justify-between gap-3">
                         <div class="space-y-1">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">فريق التعليق الصوتي</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">فريق وثاق</span>
                             <h4 class="font-extrabold text-slate-800 text-sm">${poll.title}</h4>
                             ${poll.desc ? `<p class="text-xs text-slate-500">${poll.desc}</p>` : ''}
                         </div>
@@ -660,7 +640,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-extrabold text-slate-800 text-sm">${name}</h4>
-                                    <span class="text-[11px] text-emerald-700 font-medium">فريق التعليق الصوتي</span>
+                                    <span class="text-[11px] text-emerald-700 font-medium">فريق وثاق</span>
                                 </div>
                             </div>
                         </div>
@@ -692,7 +672,6 @@
             grid.innerHTML = html;
         }
 
-        // رسالة التأكيد الأمني المنبثقة "هل أنتِ الطالبة [الاسم]؟"
         function promptVote(memberName, status) {
             const activePollId = document.getElementById('stats-poll-select').value;
             if (!activePollId) {
