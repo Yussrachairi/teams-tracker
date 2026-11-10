@@ -166,4 +166,646 @@
                         </span>
                         <span id="cnt-half" class="text-lg font-black text-blue-700 bg-white px-2 py-0.5 rounded-md border border-blue-200">0</span>
                     </div>
-                    <div id="list-half" class="text-[11px] text-blue-800 space-y-1 max-h-36 overflow-y-auto
+                    <div id="list-half" class="text-[11px] text-blue-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
+                </div>
+
+                <!-- Less than half -->
+                <div class="bg-amber-50/70 border border-amber-200 p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-clock-rotate-left text-amber-600"></i> أقل من النصف
+                        </span>
+                        <span id="cnt-less" class="text-lg font-black text-amber-700 bg-white px-2 py-0.5 rounded-md border border-amber-200">0</span>
+                    </div>
+                    <div id="list-less" class="text-[11px] text-amber-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
+                </div>
+
+                <!-- Absent with excuse -->
+                <div class="bg-rose-50/70 border border-rose-200 p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-extrabold text-rose-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-xmark text-rose-600"></i> لم أحضر
+                        </span>
+                        <span id="cnt-absent" class="text-lg font-black text-rose-700 bg-white px-2 py-0.5 rounded-md border border-rose-200">0</span>
+                    </div>
+                    <div id="list-absent" class="text-[11px] text-rose-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Global General Statistics (Top Attending Members Across All Polls) -->
+        <div class="bg-gradient-to-br from-emerald-900 to-[#0F4C3A] text-white p-6 rounded-2xl shadow-lg space-y-4">
+            <div class="flex items-center gap-3 border-b border-emerald-700 pb-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 text-[#A3E635] flex items-center justify-center font-bold text-lg border border-emerald-600">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-white text-base">الإحصائيات العامة والدعم القيادي (أكثر العضوات حضوراً وتفاعلاً)</h3>
+                    <p class="text-xs text-emerald-200">ترتيب العضوات الأكثر حضوراً (حضرته مباشرة أو نصفه) عبر كافة المجالس والمهام</p>
+                </div>
+            </div>
+            <div id="global-top-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+                <!-- Top Members Injected Dynamically -->
+            </div>
+        </div>
+
+        <!-- Active Polls Section -->
+        <div id="polls-section" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-square-poll-vertical text-[#155D48]"></i>
+                    المجالس والمهام المرسلة للفريق:
+                </h3>
+                <span id="polls-count-badge" class="text-xs bg-slate-100 font-bold px-2.5 py-1 rounded-lg text-slate-600">
+                    0 مهمة
+                </span>
+            </div>
+
+            <div id="polls-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- Polls Rendered Dynamically -->
+            </div>
+        </div>
+
+        <!-- Members Grid -->
+        <div class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-[#0F4C3A] text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-users text-[#10B981]"></i>
+                    قائمة عضوات الفريق وتسجيل الحضور:
+                </h3>
+                <span id="members-count-badge" class="text-xs font-bold text-slate-500">
+                    عرض 0 عضوة
+                </span>
+            </div>
+
+            <div id="members-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Dynamic Member Cards -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0F4C3A] text-white border-t border-[#155D48] py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-extrabold text-sm text-[#A3E635]">
+                منصة متابعة فريق التعليق الصوتي - سراة المصلحين © 2026
+            </p>
+            <p class="text-xs text-emerald-200/80">
+                جميع الحقوق محفوظة
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modal: Confirmation Modal (Security Prompt) -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-emerald-100 text-center space-y-4">
+            <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto text-2xl font-bold">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h3 id="confirm-modal-text" class="font-extrabold text-slate-800 text-base">
+                هل أنتِ الطالبة [الاسم]؟
+            </h3>
+            <p class="text-xs text-slate-500">
+                الرجاء التأكد من هويتكِ قبل تسجيل الحالة، لضمان عدم التعديل على بيانات الزميلات.
+            </p>
+            <div class="flex items-center justify-center gap-3 pt-2">
+                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition">
+                    إلغاء
+                </button>
+                <button onclick="executePendingVote()" class="px-5 py-2 rounded-xl bg-[#0F4C3A] text-[#A3E635] text-xs font-bold shadow hover:bg-[#155D48] transition">
+                    نعم، أنا هي
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Excuse Modal (When choosing Absent) -->
+    <div id="excuse-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-rose-100 space-y-4 relative">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-comment-dots text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-800 text-base">بيان العذر لعدم الحضور</h3>
+                    <p class="text-xs text-slate-500" id="excuse-modal-subtitle">الرجاء ذكر سبب عدم الحضور</p>
+                </div>
+            </div>
+
+            <div>
+                <textarea id="excuse-input" rows="3" 
+                    placeholder="اكتبي سبب العذر هنا..." 
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-rose-500 text-sm"></textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
+                <button type="button" onclick="closeExcuseModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50">
+                    إلغاء
+                </button>
+                <button type="button" onclick="submitExcuseAndVote()" class="px-5 py-2 rounded-xl bg-rose-600 text-white text-sm font-bold shadow hover:bg-rose-700 transition">
+                    تأكيد وإرسال العذر
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Add New Poll / Task -->
+    <div id="poll-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 border border-emerald-100 relative">
+            <button onclick="togglePollModal(false)" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#0F4C3A] flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-plus text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base">إرسال مهمة أو مجلس جديد للفريق</h3>
+            </div>
+
+            <form id="poll-form" onsubmit="saveNewPoll(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">عنوان المجلس أو المهمة:</label>
+                    <input type="text" id="poll-title-input" required 
+                        placeholder="مثال: مجلس تدريب الصوت الأسبوعي" 
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">تفاصيل إضافية (اختياري):</label>
+                    <textarea id="poll-desc-input" rows="2" 
+                        placeholder="أدخلي أية ملاحظات أو روابط إضافية..." 
+                        class="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] text-sm"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="togglePollModal(false)" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50">
+                        إلغاء
+                    </button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-[#0F4C3A] text-[#A3E635] text-sm font-bold shadow hover:bg-[#155D48] transition">
+                        حفظ ونشر المهمة
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 left-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-[#A3E635]"></i>
+        <span id="toast-msg" class="text-xs font-bold">تمت العملية بنجاح!</span>
+    </div>
+
+    <!-- JavaScript Data & Firebase Logic -->
+    <script>
+        // إعدادات Firebase الخاصة بمشروعكِ
+        const firebaseConfig = {
+            apiKey: "AIzaSyATwL9bOIqBxeMq-KGDT3AUcQnQZazK02Y",
+            authDomain: "sarah-almoslihin-teams.firebaseapp.com",
+            databaseURL: "https://sarah-almoslihin-teams-default-rtdb.firebaseio.com",
+            projectId: "sarah-almoslihin-teams",
+            storageBucket: "sarah-almoslihin-teams.firebasestorage.app",
+            messagingSenderId: "597692585239",
+            appId: "1:597692585239:web:1a769711eaa0b5d1869352",
+            measurementId: "G-E6Z0QSF01G"
+        };
+
+        // تهيئة Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        // قاعدة بيانات مستقلة ومخصصة لهذا الفريق بالأسماء الجديدة
+        const dbRef = database.ref('sarah_voice_team_data_v2');
+
+        // قائمة العضوات الـ 38 الجديدة
+        const TEAM_DATA = {
+            id: 'voice',
+            name: 'فريق التعليق الصوتي',
+            icon: 'fa-microphone',
+            members: [
+                "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
+                "دعاء منير", "هبة زكريا", "سهام خفش", "رحمة أبو الفرج", "بيان عثمان",
+                "رغد إسماعيل", "زينب عزالدين", "دانية أبرص", "هاجر سليمان", "فلسطين موسى",
+                "فاطمة إبراهيم", "هدىٰ مظفر", "نوره محمد", "أسماء غنيم", "إسراء للأقصى",
+                "سليمة نور", "منة الله حسين", "أسماء رُكابي", "حفصة سعدودي", "كاميليا ديداني",
+                "رميساء عبده", "أمينة شمارخة", "هاجر شادي", "مرام قنديل", "فاطمة الزهراء",
+                "رنيم الحضري", "أسمى السيد", "الشيماء مُتيمن", "ليلى الأمين", "روان عاطف",
+                "رضوى حبيب", "ملك الحسين", "نزيهة عبد الغفور"
+            ]
+        };
+
+        const INITIAL_POLLS = [
+            {
+                id: 'poll_1',
+                title: 'مجلس تدريب الأداء الصوتي الأول',
+                desc: 'متابعة الحضور وتطبيق التمارين',
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        // App State
+        let searchQuery = '';
+        let polls = INITIAL_POLLS;
+        let votes = {}; 
+        let pendingVote = null;
+
+        function sanitizeKey(key) {
+            return key.replace(/[.#$\[\]]/g, "_");
+        }
+
+        // Initialize App & Realtime Cloud Sync
+        window.addEventListener('DOMContentLoaded', () => {
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                polls = data.polls || INITIAL_POLLS;
+                votes = data.votes || {};
+
+                const syncStatus = document.getElementById('sync-status');
+                if (syncStatus) {
+                    syncStatus.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-500/20 text-emerald-200 rounded-full text-[10px] border border-emerald-300/30";
+                    syncStatus.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> متصل بالسحاب ومحدث لحظياً';
+                }
+
+                updateUI();
+            }, (error) => {
+                console.error("Firebase sync error:", error);
+                const syncStatus = document.getElementById('sync-status');
+                if (syncStatus) {
+                    syncStatus.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-rose-500/20 text-rose-200 rounded-full text-[10px] border border-rose-300/30";
+                    syncStatus.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> خطأ في الاتصال بالسحاب';
+                }
+            });
+        });
+
+        function saveToCloud() {
+            dbRef.set({
+                polls: polls,
+                votes: votes
+            });
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+            updateUI();
+        }
+
+        function updateUI() {
+            updateHeaderStats();
+            updateStatsPollDropdown();
+            renderLiveStatistics();
+            renderGlobalStatistics();
+            renderPollsSection();
+            renderMembersCards();
+        }
+
+        function getTargetMembers() {
+            return TEAM_DATA.members.filter(memberName => {
+                return !searchQuery || memberName.toLowerCase().includes(searchQuery);
+            });
+        }
+
+        function updateHeaderStats() {
+            document.getElementById('stat-members-count').textContent = TEAM_DATA.members.length;
+            document.getElementById('stat-polls-count').textContent = polls.length;
+        }
+
+        function updateStatsPollDropdown() {
+            const select = document.getElementById('stats-poll-select');
+            const selectedVal = select.value;
+
+            select.innerHTML = '';
+
+            if (polls.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = 'لا توجد مجالس مضافة';
+                select.appendChild(opt);
+                return;
+            }
+
+            polls.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.title;
+                select.appendChild(opt);
+            });
+
+            if (selectedVal && polls.some(p => p.id === selectedVal)) {
+                select.value = selectedVal;
+            }
+        }
+
+        function renderLiveStatistics() {
+            const pollId = document.getElementById('stats-poll-select').value;
+            
+            const listDirect = document.getElementById('list-direct');
+            const listHalf = document.getElementById('list-half');
+            const listLess = document.getElementById('list-less');
+            const listAbsent = document.getElementById('list-absent');
+
+            const cntDirect = document.getElementById('cnt-direct');
+            const cntHalf = document.getElementById('cnt-half');
+            const cntLess = document.getElementById('cnt-less');
+            const cntAbsent = document.getElementById('cnt-absent');
+
+            const membersList = TEAM_DATA.members;
+
+            if (!pollId || membersList.length === 0) {
+                cntDirect.textContent = '0';
+                cntHalf.textContent = '0';
+                cntLess.textContent = '0';
+                cntAbsent.textContent = '0';
+                listDirect.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
+                listHalf.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
+                listLess.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
+                listAbsent.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
+                return;
+            }
+
+            let directArr = [];
+            let halfArr = [];
+            let lessArr = [];
+            let absentArr = [];
+
+            membersList.forEach(name => {
+                const voteKey = sanitizeKey(`${name}_${pollId}`);
+                const voteObj = votes[voteKey];
+                const status = voteObj ? voteObj.status : '';
+
+                if (status === 'DIRECT') directArr.push(name);
+                else if (status === 'HALF') halfArr.push(name);
+                else if (status === 'LESS') lessArr.push(name);
+                else if (status === 'ABSENT') {
+                    const excuseText = voteObj.excuse ? ` (عذر: ${voteObj.excuse})` : '';
+                    absentArr.push(name + excuseText);
+                }
+            });
+
+            cntDirect.textContent = directArr.length;
+            cntHalf.textContent = halfArr.length;
+            cntLess.textContent = lessArr.length;
+            cntAbsent.textContent = absentArr.length;
+
+            listDirect.innerHTML = directArr.length ? directArr.map(n => `<div class="bg-emerald-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
+            listHalf.innerHTML = halfArr.length ? halfArr.map(n => `<div class="bg-blue-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
+            listLess.innerHTML = lessArr.length ? lessArr.map(n => `<div class="bg-amber-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
+            listAbsent.innerHTML = absentArr.length ? absentArr.map(n => `<div class="bg-rose-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
+        }
+
+        // إحصائيات عامة فيها أكثر من حضروا هذه المجالس
+        function renderGlobalStatistics() {
+            const container = document.getElementById('global-top-members');
+            
+            let attendanceCountMap = {};
+            TEAM_DATA.members.forEach(name => {
+                attendanceCountMap[name] = 0;
+            });
+
+            polls.forEach(poll => {
+                TEAM_DATA.members.forEach(name => {
+                    const voteKey = sanitizeKey(`${name}_${poll.id}`);
+                    const voteObj = votes[voteKey];
+                    if (voteObj && (voteObj.status === 'DIRECT' || voteObj.status === 'HALF')) {
+                        attendanceCountMap[name]++;
+                    }
+                });
+            });
+
+            let sortedMembers = Object.entries(attendanceCountMap).sort((a, b) => b[1] - a[1]);
+
+            if (sortedMembers.length === 0 || polls.length === 0) {
+                container.innerHTML = '<div class="text-xs text-emerald-200 col-span-full">لا توجد بيانات كافية للإحصائيات العامة بعد.</div>';
+                return;
+            }
+
+            let html = '';
+            sortedMembers.slice(0, 6).forEach(([name, count], index) => {
+                let medalIcon = '';
+                if (index === 0) medalIcon = '👑';
+                else if (index === 1) medalIcon = '🥈';
+                else if (index === 2) medalIcon = '🥉';
+                else medalIcon = '✨';
+
+                html += `
+                    <div class="bg-white/10 border border-white/15 p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg">${medalIcon}</span>
+                            <span class="font-bold text-sm text-white">${name}</span>
+                        </div>
+                        <span class="text-xs font-black bg-[#A3E635] text-emerald-950 px-2 py-0.5 rounded-md">
+                            ${count} مجالس
+                        </span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderPollsSection() {
+            const container = document.getElementById('polls-container');
+            const badge = document.getElementById('polls-count-badge');
+            badge.textContent = `${polls.length} مجلس / مهمة`;
+
+            if (polls.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 col-span-2 text-center py-4">لا توجد مجالس نشطة حالياً.</p>';
+                return;
+            }
+
+            let html = '';
+            polls.forEach(poll => {
+                html += `
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-center justify-between gap-3">
+                        <div class="space-y-1">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">فريق التعليق الصوتي</span>
+                            <h4 class="font-extrabold text-slate-800 text-sm">${poll.title}</h4>
+                            ${poll.desc ? `<p class="text-xs text-slate-500">${poll.desc}</p>` : ''}
+                        </div>
+                        <button onclick="deletePoll('${poll.id}')" class="text-slate-400 hover:text-rose-600 transition p-2" title="حذف المهمة">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderMembersCards() {
+            const grid = document.getElementById('members-cards-grid');
+            const badge = document.getElementById('members-count-badge');
+            const membersList = getTargetMembers();
+
+            badge.textContent = `عرض ${membersList.length} عضوة`;
+
+            if (membersList.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 font-medium">لم يتم العثور على نتائج مطابقة للبحث.</div>';
+                return;
+            }
+
+            const activePollId = document.getElementById('stats-poll-select').value;
+
+            let html = '';
+            membersList.forEach((name, index) => {
+                const voteKey = sanitizeKey(`${name}_${activePollId}`);
+                const voteObj = activePollId ? votes[voteKey] : null;
+                const currentStatus = voteObj ? voteObj.status : '';
+
+                html += `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-[#0F4C3A] font-bold text-xs flex items-center justify-center border border-emerald-100">
+                                    ${index + 1}
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-800 text-sm">${name}</h4>
+                                    <span class="text-[11px] text-emerald-700 font-medium">فريق التعليق الصوتي</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4 Status Options -->
+                        <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-100">
+                            <button onclick="promptVote('${name}', 'DIRECT')" 
+                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'DIRECT' ? 'bg-emerald-600 text-white shadow' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}">
+                                <i class="fa-solid fa-check text-[10px]"></i> حضرته مباشرة
+                            </button>
+                            <button onclick="promptVote('${name}', 'HALF')" 
+                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'HALF' ? 'bg-blue-600 text-white shadow' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'}">
+                                <i class="fa-solid fa-adjust text-[10px]"></i> حضرت نصفه
+                            </button>
+                            <button onclick="promptVote('${name}', 'LESS')" 
+                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'LESS' ? 'bg-amber-600 text-white shadow' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}">
+                                <i class="fa-solid fa-clock-rotate-left text-[10px]"></i> أقل من النصف
+                            </button>
+                            <button onclick="promptVote('${name}', 'ABSENT')" 
+                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'ABSENT' ? 'bg-rose-600 text-white shadow' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'}">
+                                <i class="fa-solid fa-xmark text-[10px]"></i> لم أحضر
+                            </button>
+                        </div>
+                        ${voteObj && voteObj.excuse ? `<div class="text-[10px] text-rose-600 bg-rose-50 p-1.5 rounded border border-rose-100">العذر: ${voteObj.excuse}</div>` : ''}
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // رسالة التأكيد الأمني المنبثقة "هل أنتِ الطالبة [الاسم]؟"
+        function promptVote(memberName, status) {
+            const activePollId = document.getElementById('stats-poll-select').value;
+            if (!activePollId) {
+                showToast('الرجاء اختيار مجلس أو مهمة نشطة أولاً من القائمة', 'error');
+                return;
+            }
+
+            pendingVote = { memberName, status, pollId: activePollId };
+
+            if (status === 'ABSENT') {
+                document.getElementById('excuse-modal-subtitle').textContent = `الطالبة: ${memberName}`;
+                document.getElementById('excuse-input').value = '';
+                document.getElementById('excuse-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('confirm-modal-text').textContent = `هل أنتِ الطالبة (${memberName})؟`;
+                document.getElementById('confirm-modal').classList.remove('hidden');
+            }
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            pendingVote = null;
+        }
+
+        function closeExcuseModal() {
+            document.getElementById('excuse-modal').classList.add('hidden');
+            pendingVote = null;
+        }
+
+        function submitExcuseAndVote() {
+            if (!pendingVote) return;
+            const excuseText = document.getElementById('excuse-input').value.trim();
+            if (!excuseText) {
+                alert('الرجاء كتابة سبب العذر لعدم الحضور');
+                return;
+            }
+
+            pendingVote.excuse = excuseText;
+            closeExcuseModal();
+
+            document.getElementById('confirm-modal-text').textContent = `هل أنتِ الطالبة (${pendingVote.memberName})؟`;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+
+        function executePendingVote() {
+            if (!pendingVote) return;
+
+            const voteKey = sanitizeKey(`${pendingVote.memberName}_${pendingVote.pollId}`);
+            votes[voteKey] = {
+                status: pendingVote.status,
+                excuse: pendingVote.excuse || ''
+            };
+
+            saveToCloud();
+            closeConfirmModal();
+            showToast('تم تسجيل الحضور وحفظه سحابياً بنجاح!', 'success');
+        }
+
+        function togglePollModal(show) {
+            const modal = document.getElementById('poll-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+                document.getElementById('poll-form').reset();
+            }
+        }
+
+        function saveNewPoll(event) {
+            event.preventDefault();
+            const title = document.getElementById('poll-title-input').value.trim();
+            const desc = document.getElementById('poll-desc-input').value.trim();
+
+            if (!title) return;
+
+            const newPoll = {
+                id: 'poll_' + Date.now(),
+                title,
+                desc,
+                createdAt: new Date().toISOString()
+            };
+
+            polls.push(newPoll);
+            saveToCloud();
+            togglePollModal(false);
+            showToast('تمت إضافة ونشر المهمة الجديدة بنجاح!', 'success');
+        }
+
+        function deletePoll(pollId) {
+            if (confirm('هل أنتِ متأكدة من حذف هذا المجلس؟')) {
+                polls = polls.filter(p => p.id !== pollId);
+                saveToCloud();
+                showToast('تم حذف المهمة بنجاح.', 'success');
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.textContent = msg;
+            if (type === 'success') {
+                toastIcon.className = "fa-solid fa-circle-check text-[#A3E635]";
+            } else {
+                toastIcon.className = "fa-solid fa-triangle-exclamation text-amber-400";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
