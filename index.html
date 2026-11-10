@@ -71,7 +71,7 @@
                 <!-- Logo & Title -->
                 <div class="flex items-center gap-4 text-center md:text-right">
                     <div class="w-16 h-16 rounded-2xl bg-white/10 border-2 border-[#A3E635]/40 flex items-center justify-center p-2 shadow-inner">
-                        <i class="fa-solid fa-[#A3E635] fa-users-rays text-3xl text-[#A3E635]"></i>
+                        <i class="fa-solid fa-users-rays text-3xl text-[#A3E635]"></i>
                     </div>
                     <div>
                         <div class="inline-block px-3 py-0.5 rounded-full bg-[#A3E635]/20 text-[#A3E635] text-xs font-bold mb-1 border border-[#A3E635]/30">
@@ -133,7 +133,7 @@
                     </div>
                     <div>
                         <h3 class="font-black text-slate-800 text-base">لوحة إحصائيات الحضور للمجلس المختار</h3>
-                        <p class="text-xs text-slate-500">تفصيل استجابات العضوات (حضرته مباشرة / نصفه / أقل من النصف / لم أحضر)</p>
+                        <p class="text-xs text-slate-500" id="stats-subtitle">تفصيل استجابات العضوات حسب نوع المجلس</p>
                     </div>
                 </div>
 
@@ -144,53 +144,9 @@
                 </div>
             </div>
 
-            <!-- Stats Breakdown Grid (4 Options) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-                
-                <!-- Direct Attendance -->
-                <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-xl space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-extrabold text-emerald-900 flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-check text-emerald-600"></i> حضرته مباشرة
-                        </span>
-                        <span id="cnt-direct" class="text-lg font-black text-emerald-700 bg-white px-2 py-0.5 rounded-md border border-emerald-200">0</span>
-                    </div>
-                    <div id="list-direct" class="text-[11px] text-emerald-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
-                </div>
-
-                <!-- Half Attendance -->
-                <div class="bg-blue-50/70 border border-blue-200 p-4 rounded-xl space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-extrabold text-blue-900 flex items-center gap-1.5">
-                            <i class="fa-solid fa-adjust text-blue-600"></i> حضرت نصفه
-                        </span>
-                        <span id="cnt-half" class="text-lg font-black text-blue-700 bg-white px-2 py-0.5 rounded-md border border-blue-200">0</span>
-                    </div>
-                    <div id="list-half" class="text-[11px] text-blue-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
-                </div>
-
-                <!-- Less than half -->
-                <div class="bg-amber-50/70 border border-amber-200 p-4 rounded-xl space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
-                            <i class="fa-solid fa-clock-rotate-left text-amber-600"></i> أقل من النصف
-                        </span>
-                        <span id="cnt-less" class="text-lg font-black text-amber-700 bg-white px-2 py-0.5 rounded-md border border-amber-200">0</span>
-                    </div>
-                    <div id="list-less" class="text-[11px] text-amber-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
-                </div>
-
-                <!-- Absent with excuse -->
-                <div class="bg-rose-50/70 border border-rose-200 p-4 rounded-xl space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-extrabold text-rose-900 flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-xmark text-rose-600"></i> لم أحضر
-                        </span>
-                        <span id="cnt-absent" class="text-lg font-black text-rose-700 bg-white px-2 py-0.5 rounded-md border border-rose-200">0</span>
-                    </div>
-                    <div id="list-absent" class="text-[11px] text-rose-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar font-medium pt-1"></div>
-                </div>
-
+            <!-- Dynamic Stats Container -->
+            <div id="stats-breakdown-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                <!-- Injected Dynamically Based on Poll Type (General vs Educational) -->
             </div>
         </div>
 
@@ -202,7 +158,7 @@
                 </div>
                 <div>
                     <h3 class="font-black text-slate-800 text-base">الإحصائيات العامة (سجل حضور عضوات فريق وثاق)</h3>
-                    <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور (مباشرة أو نصفه) لكل عضوة عبر كافة المجالس</p>
+                    <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور لكل عضوة عبر كافة المجالس</p>
                 </div>
             </div>
             <div id="global-all-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pt-2">
@@ -281,36 +237,6 @@
         </div>
     </div>
 
-    <!-- Modal: Excuse Modal (When choosing Absent) -->
-    <div id="excuse-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-rose-100 space-y-4 relative">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
-                    <i class="fa-solid fa-comment-dots text-lg"></i>
-                </div>
-                <div>
-                    <h3 class="font-extrabold text-slate-800 text-base">بيان العذر لعدم الحضور</h3>
-                    <p class="text-xs text-slate-500" id="excuse-modal-subtitle">الرجاء ذكر سبب عدم الحضور</p>
-                </div>
-            </div>
-
-            <div>
-                <textarea id="excuse-input" rows="3" 
-                    placeholder="اكتبي سبب العذر هنا..." 
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-rose-500 text-sm"></textarea>
-            </div>
-
-            <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
-                <button type="button" onclick="closeExcuseModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50">
-                    إلغاء
-                </button>
-                <button type="button" onclick="submitExcuseAndVote()" class="px-5 py-2 rounded-xl bg-rose-600 text-white text-sm font-bold shadow hover:bg-rose-700 transition">
-                    تأكيد وإرسال العذر
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal: Add New Poll / Task -->
     <div id="poll-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 border border-emerald-100 relative">
@@ -327,9 +253,17 @@
 
             <form id="poll-form" onsubmit="saveNewPoll(event)" class="space-y-4">
                 <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">نوع المجلس:</label>
+                    <select id="poll-type-input" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] text-sm font-bold bg-slate-50">
+                        <option value="EDUCATIONAL">مجلس تربوي</option>
+                        <option value="GENERAL">مجلس عام</option>
+                    </select>
+                </div>
+
+                <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">عنوان المجلس أو المهمة:</label>
                     <input type="text" id="poll-title-input" required 
-                        placeholder="مثال: المجلس التوجيهي العام" 
+                        placeholder="مثال: المجلس التربوي الأسبوعي" 
                         class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] text-sm">
                 </div>
 
@@ -373,7 +307,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const dbRef = database.ref('sarah_wathaq_team_data');
+        const dbRef = database.ref('sarah_wathaq_team_v2_data');
 
         const MEMBERS_DATA = [
             "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
@@ -389,8 +323,9 @@
         const INITIAL_POLLS = [
             {
                 id: 'poll_1',
-                title: 'متابعة حضور المجلس العام',
-                desc: 'تسجيل الحضور والتفاعل',
+                title: 'المجلس التربوي الأساسي',
+                type: 'EDUCATIONAL',
+                desc: 'متابعة الحضور التربوي',
                 createdAt: new Date().toISOString()
             }
         ];
@@ -476,7 +411,7 @@
             polls.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p.id;
-                opt.textContent = p.title;
+                opt.textContent = `${p.title} (${p.type === 'GENERAL' ? 'مجلس عام' : 'مجلس تربوي'})`;
                 select.appendChild(opt);
             });
 
@@ -487,82 +422,112 @@
 
         function renderLiveStatistics() {
             const pollId = document.getElementById('stats-poll-select').value;
-            
-            const listDirect = document.getElementById('list-direct');
-            const listHalf = document.getElementById('list-half');
-            const listLess = document.getElementById('list-less');
-            const listAbsent = document.getElementById('list-absent');
+            const container = document.getElementById('stats-breakdown-container');
+            const subtitle = document.getElementById('stats-subtitle');
 
-            const cntDirect = document.getElementById('cnt-direct');
-            const cntHalf = document.getElementById('cnt-half');
-            const cntLess = document.getElementById('cnt-less');
-            const cntAbsent = document.getElementById('cnt-absent');
-
-            const membersList = MEMBERS_DATA;
-
-            if (!pollId || membersList.length === 0) {
-                cntDirect.textContent = '0';
-                cntHalf.textContent = '0';
-                cntLess.textContent = '0';
-                cntAbsent.textContent = '0';
-                listDirect.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
-                listHalf.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
-                listLess.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
-                listAbsent.innerHTML = '<span class="opacity-50">لا توجد بيانات</span>';
+            const activePoll = polls.find(p => p.id === pollId);
+            if (!activePoll) {
+                container.innerHTML = '<div class="text-xs text-slate-400 col-span-full">اختر مجلساً لعرض الإحصائيات</div>';
                 return;
             }
 
-            let directArr = [];
-            let halfArr = [];
-            let lessArr = [];
-            let absentArr = [];
+            const isGeneral = activePoll.type === 'GENERAL';
+            subtitle.textContent = isGeneral ? 'خيارات المجلس العام' : 'خيارات المجلس التربوي';
 
-            membersList.forEach(name => {
-                const voteKey = sanitizeKey(`${name}_${pollId}`);
-                const voteObj = votes[voteKey];
-                const status = voteObj ? voteObj.status : '';
+            let counts = {};
+            let lists = {};
 
-                if (status === 'DIRECT') directArr.push(name);
-                else if (status === 'HALF') halfArr.push(name);
-                else if (status === 'LESS') lessArr.push(name);
-                else if (status === 'ABSENT') {
-                    const excuseText = voteObj.excuse ? ` (عذر: ${voteObj.excuse})` : '';
-                    absentArr.push(name + excuseText);
-                }
-            });
+            if (isGeneral) {
+                counts = { DIRECT: 0, RECORD: 0, NOT_YET: 0, NOT_YET_ATTENDED: 0 };
+                lists = { DIRECT: [], RECORD: [], NOT_YET: [], NOT_YET_ATTENDED: [] };
 
-            cntDirect.textContent = directArr.length;
-            cntHalf.textContent = halfArr.length;
-            cntLess.textContent = lessArr.length;
-            cntAbsent.textContent = absentArr.length;
+                MEMBERS_DATA.forEach(name => {
+                    const status = votes[sanitizeKey(`${name}_${pollId}`)] || '';
+                    if (status === 'DIRECT') { counts.DIRECT++; lists.DIRECT.push(name); }
+                    else if (status === 'RECORD') { counts.RECORD++; lists.RECORD.push(name); }
+                    else if (status === 'NOT_YET') { counts.NOT_YET++; lists.NOT_YET.push(name); }
+                    else if (status === 'NOT_YET_ATTENDED') { counts.NOT_YET_ATTENDED++; lists.NOT_YET_ATTENDED.push(name); }
+                });
 
-            listDirect.innerHTML = directArr.length ? directArr.map(n => `<div class="bg-emerald-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
-            listHalf.innerHTML = halfArr.length ? halfArr.map(n => `<div class="bg-blue-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
-            listLess.innerHTML = lessArr.length ? lessArr.map(n => `<div class="bg-amber-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
-            listAbsent.innerHTML = absentArr.length ? absentArr.map(n => `<div class="bg-rose-100/60 px-2 py-0.5 rounded font-bold">• ${n}</div>`).join('') : '<span class="text-slate-400">لا أحد</span>';
+                container.innerHTML = `
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl space-y-2">
+                        <div class="flex justify-between font-bold text-xs text-emerald-900"><span>حضرته مباشرة</span><span class="bg-white px-2 py-0.5 rounded border border-emerald-200">${counts.DIRECT}</span></div>
+                        <div class="text-[11px] text-emerald-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar">${lists.DIRECT.map(n=>`<div>• ${n}</div>`).join('') || '<span class="text-slate-400">لا أحد</span>'}</div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl space-y-2">
+                        <div class="flex justify-between font-bold text-xs text-blue-900"><span>سمعت التسجيل</span><span class="bg-white px-2 py-0.5 rounded border border-blue-200">${counts.RECORD}</span></div>
+                        <div class="text-[11px] text-blue-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar">${lists.RECORD.map(n=>`<div>• ${n}</div>`).join('') || '<span class="text-slate-400">لا أحد</span>'}</div>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-2">
+                        <div class="flex justify-between font-bold text-xs text-amber-900"><span>لم أتمه بعد</span><span class="bg-white px-2 py-0.5 rounded border border-amber-200">${counts.NOT_YET}</span></div>
+                        <div class="text-[11px] text-amber-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar">${lists.NOT_YET.map(n=>`<div>• ${n}</div>`).join('') || '<span class="text-slate-400">لا أحد</span>'}</div>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl space-y-2">
+                        <div class="flex justify-between font-bold text-xs text-rose-900"><span>لم أحضره بعد</span><span class="bg-white px-2 py-0.5 rounded border border-rose-200">${counts.NOT_YET_ATTENDED}</span></div>
+                        <div class="text-[11px] text-rose-800 space-y-1 max-h-36 overflow-y-auto custom-scrollbar">${lists.NOT_YET_ATTENDED.map(n=>`<div>• ${n}</div>`).join('') || '<span class="text-slate-400">لا أحد</span>'}</div>
+                    </div>
+                `;
+            } else {
+                counts = { FULL: 0, MORE_HALF: 0, HALF: 0, LESS_HALF: 0, ABSENT: 0, EXCUSED: 0 };
+                lists = { FULL: [], MORE_HALF: [], HALF: [], LESS_HALF: [], ABSENT: [], EXCUSED: [] };
+
+                MEMBERS_DATA.forEach(name => {
+                    const status = votes[sanitizeKey(`${name}_${pollId}`)] || '';
+                    if (status === 'FULL') { counts.FULL++; lists.FULL.push(name); }
+                    else if (status === 'MORE_HALF') { counts.MORE_HALF++; lists.MORE_HALF.push(name); }
+                    else if (status === 'HALF') { counts.HALF++; lists.HALF.push(name); }
+                    else if (status === 'LESS_HALF') { counts.LESS_HALF++; lists.LESS_HALF.push(name); }
+                    else if (status === 'ABSENT') { counts.ABSENT++; lists.ABSENT.push(name); }
+                    else if (status === 'EXCUSED') { counts.EXCUSED++; lists.EXCUSED.push(name); }
+                });
+
+                container.innerHTML = `
+                    <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between font-bold text-xs text-emerald-900"><span>حضرته كاملاً</span><span>${counts.FULL}</span></div>
+                        <div class="text-[10px] text-emerald-800 max-h-28 overflow-y-auto">${lists.FULL.map(n=>`<div>• ${n}</div>`).join('') || 'لا أحد'}</div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between font-bold text-xs text-blue-900"><span>أكثر من النصف</span><span>${counts.MORE_HALF}</span></div>
+                        <div class="text-[10px] text-blue-800 max-h-28 overflow-y-auto">${lists.MORE_HALF.map(n=>`<div>• ${n}</div>`).join('') || 'لا أحد'}</div>
+                    </div>
+                    <div class="bg-cyan-50 border border-cyan-200 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between font-bold text-xs text-cyan-900"><span>النصف</span><span>${counts.HALF}</span></div>
+                        <div class="text-[10px] text-cyan-800 max-h-28 overflow-y-auto">${lists.HALF.map(n=>`<div>• ${n}</div>`).join('') || 'لا أحد'}</div>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between font-bold text-xs text-amber-900"><span>أقل من النصف</span><span>${counts.LESS_HALF}</span></div>
+                        <div class="text-[10px] text-amber-800 max-h-28 overflow-y-auto">${lists.LESS_HALF.map(n=>`<div>• ${n}</div>`).join('') || 'لا أحد'}</div>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between font-bold text-xs text-rose-900"><span>لم أحضر</span><span>${counts.ABSENT}</span></div>
+                        <div class="text-[10px] text-rose-800 max-h-28 overflow-y-auto">${lists.ABSENT.map(n=>`<div>• ${n}</div>`).join('') || 'لا أحد'}</div>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between font-bold text-xs text-purple-900"><span>معتذرة</span><span>${counts.EXCUSED}</span></div>
+                        <div class="text-[10px] text-purple-800 max-h-28 overflow-y-auto">${lists.EXCUSED.map(n=>`<div>• ${n}</div>`).join('') || 'لا أحد'}</div>
+                    </div>
+                `;
+            }
         }
 
-        // إحصائيات عامة تشمل جميع عضوات فريق وثاق بشكل جدول وبسيط
+        // إحصائيات عامة تشمل جميع العضوات المواظبات
         function renderGlobalStatistics() {
             const container = document.getElementById('global-all-members');
-            
             let attendanceCountMap = {};
-            MEMBERS_DATA.forEach(name => {
-                attendanceCountMap[name] = 0;
-            });
+            MEMBERS_DATA.forEach(name => { attendanceCountMap[name] = 0; });
 
             polls.forEach(poll => {
                 MEMBERS_DATA.forEach(name => {
-                    const voteKey = sanitizeKey(`${name}_${poll.id}`);
-                    const voteObj = votes[voteKey];
-                    if (voteObj && (voteObj.status === 'DIRECT' || voteObj.status === 'HALF')) {
+                    const status = votes[sanitizeKey(`${name}_${poll.id}`)];
+                    if (poll.type === 'EDUCATIONAL' && (status === 'FULL' || status === 'MORE_HALF' || status === 'HALF')) {
+                        attendanceCountMap[name]++;
+                    } else if (poll.type === 'GENERAL' && (status === 'DIRECT' || status === 'RECORD')) {
                         attendanceCountMap[name]++;
                     }
                 });
             });
 
             let allMembersSummary = Object.entries(attendanceCountMap);
-
             if (allMembersSummary.length === 0 || polls.length === 0) {
                 container.innerHTML = '<div class="text-xs text-slate-400 col-span-full text-center py-2">لا توجد بيانات كافية بعد.</div>';
                 return;
@@ -574,19 +539,18 @@
                     <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl flex items-center justify-between">
                         <span class="font-bold text-xs text-slate-800">${name}</span>
                         <span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-lg">
-                            ${count} مجالس
+                            ${count} تفاعل
                         </span>
                     </div>
                 `;
             });
-
             container.innerHTML = html;
         }
 
         function renderPollsSection() {
             const container = document.getElementById('polls-container');
             const badge = document.getElementById('polls-count-badge');
-            badge.textContent = `${polls.length} مجلس / مهمة`;
+            badge.textContent = `${polls.length} مهمة`;
 
             if (polls.length === 0) {
                 container.innerHTML = '<p class="text-xs text-slate-400 col-span-2 text-center py-4">لا توجد مجالس نشطة حالياً.</p>';
@@ -595,10 +559,12 @@
 
             let html = '';
             polls.forEach(poll => {
+                const typeLabel = poll.type === 'GENERAL' ? 'مجلس عام' : 'مجلس تربوي';
+                const badgeColor = poll.type === 'GENERAL' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800';
                 html += `
                     <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-center justify-between gap-3">
                         <div class="space-y-1">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">فريق وثاق</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeColor}">${typeLabel}</span>
                             <h4 class="font-extrabold text-slate-800 text-sm">${poll.title}</h4>
                             ${poll.desc ? `<p class="text-xs text-slate-500">${poll.desc}</p>` : ''}
                         </div>
@@ -615,80 +581,66 @@
             const grid = document.getElementById('members-cards-grid');
             const badge = document.getElementById('members-count-badge');
             const membersList = getTargetMembers();
-
             badge.textContent = `عرض ${membersList.length} عضوة`;
 
             if (membersList.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 font-medium">لم يتم العثور على نتائج مطابقة للبحث.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 font-medium">لم يتم العثور على نتائج مطابقة.</div>';
                 return;
             }
 
             const activePollId = document.getElementById('stats-poll-select').value;
+            const activePoll = polls.find(p => p.id === activePollId);
+            const isGeneral = activePoll ? activePoll.type === 'GENERAL' : true;
 
             let html = '';
             membersList.forEach((name, index) => {
                 const voteKey = sanitizeKey(`${name}_${activePollId}`);
-                const voteObj = activePollId ? votes[voteKey] : null;
-                const currentStatus = voteObj ? voteObj.status : '';
+                const currentStatus = activePollId ? (votes[voteKey] || '') : '';
+
+                let buttonsHtml = '';
+                if (isGeneral) {
+                    buttonsHtml = `
+                        <button onclick="promptVote('${name}', 'DIRECT')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'DIRECT' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'}">حضرته مباشرة</button>
+                        <button onclick="promptVote('${name}', 'RECORD')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'RECORD' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-700'}">سمعت التسجيل</button>
+                        <button onclick="promptVote('${name}', 'NOT_YET')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'NOT_YET' ? 'bg-amber-600 text-white' : 'bg-amber-50 text-amber-700'}">لم أتمه بعد</button>
+                        <button onclick="promptVote('${name}', 'NOT_YET_ATTENDED')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'NOT_YET_ATTENDED' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700'}">لم أحضره بعد</button>
+                    `;
+                } else {
+                    buttonsHtml = `
+                        <button onclick="promptVote('${name}', 'FULL')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'FULL' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'}">حضرته كاملاً</button>
+                        <button onclick="promptVote('${name}', 'MORE_HALF')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'MORE_HALF' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-700'}">أكثر من النصف</button>
+                        <button onclick="promptVote('${name}', 'HALF')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'HALF' ? 'bg-cyan-600 text-white' : 'bg-cyan-50 text-cyan-700'}">النصف</button>
+                        <button onclick="promptVote('${name}', 'LESS_HALF')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'LESS_HALF' ? 'bg-amber-600 text-white' : 'bg-amber-50 text-amber-700'}">أقل من النصف</button>
+                        <button onclick="promptVote('${name}', 'ABSENT')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'ABSENT' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700'}">لم أحضر</button>
+                        <button onclick="promptVote('${name}', 'EXCUSED')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'EXCUSED' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-700'}">معتذرة</button>
+                    `;
+                }
 
                 html += `
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
-                        <div class="flex items-start justify-between gap-2">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-[#0F4C3A] font-bold text-xs flex items-center justify-center border border-emerald-100">
-                                    ${index + 1}
-                                </div>
-                                <div>
-                                    <h4 class="font-extrabold text-slate-800 text-sm">${name}</h4>
-                                    <span class="text-[11px] text-emerald-700 font-medium">فريق وثاق</span>
-                                </div>
-                            </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#0F4C3A] font-bold text-xs flex items-center justify-center border border-emerald-100">${index + 1}</div>
+                            <h4 class="font-extrabold text-slate-800 text-sm">${name}</h4>
                         </div>
-
-                        <!-- 4 Status Options -->
                         <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-100">
-                            <button onclick="promptVote('${name}', 'DIRECT')" 
-                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'DIRECT' ? 'bg-emerald-600 text-white shadow' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}">
-                                <i class="fa-solid fa-check text-[10px]"></i> حضرته مباشرة
-                            </button>
-                            <button onclick="promptVote('${name}', 'HALF')" 
-                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'HALF' ? 'bg-blue-600 text-white shadow' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'}">
-                                <i class="fa-solid fa-adjust text-[10px]"></i> حضرت نصفه
-                            </button>
-                            <button onclick="promptVote('${name}', 'LESS')" 
-                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'LESS' ? 'bg-amber-600 text-white shadow' : 'bg-amber-50 text-amber-700 hover:bg-amber-100'}">
-                                <i class="fa-solid fa-clock-rotate-left text-[10px]"></i> أقل من النصف
-                            </button>
-                            <button onclick="promptVote('${name}', 'ABSENT')" 
-                                class="py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 ${currentStatus === 'ABSENT' ? 'bg-rose-600 text-white shadow' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'}">
-                                <i class="fa-solid fa-xmark text-[10px]"></i> لم أحضر
-                            </button>
+                            ${buttonsHtml}
                         </div>
-                        ${voteObj && voteObj.excuse ? `<div class="text-[10px] text-rose-600 bg-rose-50 p-1.5 rounded border border-rose-100">العذر: ${voteObj.excuse}</div>` : ''}
+                        ${currentStatus ? `<div class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-1 rounded text-center">الحالة المسجلة: تم الحفظ (يمكنك التعديل لاحقاً)</div>` : ''}
                     </div>
                 `;
             });
-
             grid.innerHTML = html;
         }
 
         function promptVote(memberName, status) {
             const activePollId = document.getElementById('stats-poll-select').value;
             if (!activePollId) {
-                showToast('الرجاء اختيار مجلس أو مهمة نشطة أولاً من القائمة', 'error');
+                showToast('الرجاء اختيار مجلس أولاً', 'error');
                 return;
             }
-
             pendingVote = { memberName, status, pollId: activePollId };
-
-            if (status === 'ABSENT') {
-                document.getElementById('excuse-modal-subtitle').textContent = `الطالبة: ${memberName}`;
-                document.getElementById('excuse-input').value = '';
-                document.getElementById('excuse-modal').classList.remove('hidden');
-            } else {
-                document.getElementById('confirm-modal-text').textContent = `هل أنتِ الطالبة (${memberName})؟`;
-                document.getElementById('confirm-modal').classList.remove('hidden');
-            }
+            document.getElementById('confirm-modal-text').textContent = `هل أنتِ الطالبة (${memberName})؟`;
+            document.getElementById('confirm-modal').classList.remove('hidden');
         }
 
         function closeConfirmModal() {
@@ -696,53 +648,25 @@
             pendingVote = null;
         }
 
-        function closeExcuseModal() {
-            document.getElementById('excuse-modal').classList.add('hidden');
-            pendingVote = null;
-        }
-
-        function submitExcuseAndVote() {
-            if (!pendingVote) return;
-            const excuseText = document.getElementById('excuse-input').value.trim();
-            if (!excuseText) {
-                alert('الرجاء كتابة سبب العذر لعدم الحضور');
-                return;
-            }
-
-            pendingVote.excuse = excuseText;
-            closeExcuseModal();
-
-            document.getElementById('confirm-modal-text').textContent = `هل أنتِ الطالبة (${pendingVote.memberName})؟`;
-            document.getElementById('confirm-modal').classList.remove('hidden');
-        }
-
         function executePendingVote() {
             if (!pendingVote) return;
-
             const voteKey = sanitizeKey(`${pendingVote.memberName}_${pendingVote.pollId}`);
-            votes[voteKey] = {
-                status: pendingVote.status,
-                excuse: pendingVote.excuse || ''
-            };
-
+            votes[voteKey] = pendingVote.status;
             saveToCloud();
             closeConfirmModal();
-            showToast('تم تسجيل الحضور وحفظه سحابياً بنجاح!', 'success');
+            showToast('تم التعديل وحفظ الحالة بنجاح!', 'success');
         }
 
         function togglePollModal(show) {
             const modal = document.getElementById('poll-modal');
-            if (show) {
-                modal.classList.remove('hidden');
-            } else {
-                modal.classList.add('hidden');
-                document.getElementById('poll-form').reset();
-            }
+            if (show) modal.classList.remove('hidden');
+            else { modal.classList.add('hidden'); document.getElementById('poll-form').reset(); }
         }
 
         function saveNewPoll(event) {
             event.preventDefault();
             const title = document.getElementById('poll-title-input').value.trim();
+            const type = document.getElementById('poll-type-input').value;
             const desc = document.getElementById('poll-desc-input').value.trim();
 
             if (!title) return;
@@ -750,6 +674,7 @@
             const newPoll = {
                 id: 'poll_' + Date.now(),
                 title,
+                type,
                 desc,
                 createdAt: new Date().toISOString()
             };
@@ -757,7 +682,7 @@
             polls.push(newPoll);
             saveToCloud();
             togglePollModal(false);
-            showToast('تمت إضافة ونشر المهمة الجديدة بنجاح!', 'success');
+            showToast('تمت إضافة ونشر المهمة بنجاح!', 'success');
         }
 
         function deletePoll(pollId) {
@@ -771,15 +696,7 @@
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toast-msg');
-            const toastIcon = document.getElementById('toast-icon');
-
             toastMsg.textContent = msg;
-            if (type === 'success') {
-                toastIcon.className = "fa-solid fa-circle-check text-[#A3E635]";
-            } else {
-                toastIcon.className = "fa-solid fa-triangle-exclamation text-amber-400";
-            }
-
             toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
