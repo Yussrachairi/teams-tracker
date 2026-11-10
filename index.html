@@ -89,7 +89,7 @@
                     </div>
                 </div>
 
-                <!-- Stats Badges & Global Stats Trigger Button -->
+                <!-- Stats Badges & Action Buttons -->
                 <div class="flex flex-wrap items-center justify-center gap-3">
                     <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 text-center">
                         <span class="block text-xs text-emerald-200">إجمالي العضوات</span>
@@ -99,10 +99,10 @@
                         <span class="block text-xs text-emerald-200">المجالس / المهام</span>
                         <span id="stat-polls-count" class="text-xl font-black text-[#A3E635]">0</span>
                     </div>
-                    <!-- زر فتح نافذة الإحصائيات العامة -->
-                    <button onclick="toggleGlobalStatsModal(true)" class="bg-[#A3E635] hover:bg-[#86efac] text-emerald-950 px-4 py-3 rounded-xl font-extrabold text-xs shadow-md transition flex items-center gap-2">
-                        <i class="fa-solid fa-clipboard-list text-sm"></i>
-                        <span>الإحصائيات العامة الشاملة</span>
+                    <!-- زر فتح نافذة التعديل على المهام (خاص بالمربية) -->
+                    <button onclick="togglePollsManagementModal(true)" class="bg-[#A3E635] hover:bg-[#86efac] text-emerald-950 px-4 py-3 rounded-xl font-extrabold text-xs shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square text-sm"></i>
+                        <span>التعديل على المهام (خاص بالمربية)</span>
                     </button>
                 </div>
 
@@ -113,15 +113,8 @@
     <!-- Main Content Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-8">
 
-        <!-- Controls Toolbar: Search & Add Poll Button -->
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white p-4 rounded-2xl shadow-sm border border-emerald-100">
-            <div class="relative flex-grow max-w-md">
-                <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="search-input" oninput="handleSearch()" 
-                    placeholder="ابحثي عن اسم عضوة في فريق وثاق..." 
-                    class="w-full pr-11 pl-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-[#155D48] focus:ring-2 focus:ring-[#155D48]/20 text-sm transition">
-            </div>
-
+        <!-- Controls Toolbar: Add Poll Button -->
+        <div class="flex items-center justify-end bg-white p-4 rounded-2xl shadow-sm border border-emerald-100">
             <button onclick="togglePollModal(true)" 
                 class="bg-gradient-to-r from-[#0F4C3A] to-[#155D48] hover:from-[#155D48] hover:to-[#0F4C3A] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition transform active:scale-95">
                 <i class="fa-solid fa-circle-plus text-[#A3E635] text-lg"></i>
@@ -129,7 +122,7 @@
             </button>
         </div>
 
-        <!-- Live Analytics & Statistics Dashboard (المجلس المختار - كما كانت) -->
+        <!-- Live Analytics & Statistics Dashboard (المجلس المختار) -->
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-5">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
                 <div class="flex items-center gap-3">
@@ -155,66 +148,32 @@
             </div>
         </div>
 
-        <!-- Active Polls Section -->
-        <div id="polls-section" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
-                    <i class="fa-solid fa-square-poll-vertical text-[#155D48]"></i>
-                    المجالس والمهام المرسلة للفريق:
-                </h3>
-                <span id="polls-count-badge" class="text-xs bg-slate-100 font-bold px-2.5 py-1 rounded-lg text-slate-600">
-                    0 مهمة
-                </span>
-            </div>
-
-            <div id="polls-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <!-- Polls Rendered Dynamically -->
-            </div>
-        </div>
-
-        <!-- Members Grid -->
-        <div class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="font-extrabold text-[#0F4C3A] text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-users text-[#10B981]"></i>
-                    قائمة عضوات فريق وثاق وتسجيل الحضور:
-                </h3>
-                <span id="members-count-badge" class="text-xs font-bold text-slate-500">
-                    عرض 0 عضوة
-                </span>
-            </div>
-
-            <div id="members-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Dynamic Member Cards -->
-            </div>
-        </div>
-
     </main>
 
-    <!-- Modal: Global Statistics Modal (نافذة الإحصائيات العامة المنبثقة) -->
-    <div id="global-stats-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-6 border border-emerald-100 relative space-y-4 max-h-[90vh] flex flex-col">
+    <!-- Modal: Polls Management Modal (نافذة التعديل على المهام - خاص بالمربية) -->
+    <div id="polls-management-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-6 border border-emerald-100 relative space-y-4 max-h-[90vh] flex flex-col">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#0F4C3A] flex items-center justify-center font-bold text-lg">
-                        <i class="fa-solid fa-clipboard-list"></i>
+                        <i class="fa-solid fa-pen-to-square"></i>
                     </div>
                     <div>
-                        <h3 class="font-black text-slate-800 text-base">الإحصائيات العامة الشاملة (سجل حضور عضوات فريق وثاق)</h3>
-                        <p class="text-xs text-slate-500">عدد مجالس وحصص الحضور لكل عضوة عبر كافة المجالس والمهام</p>
+                        <h3 class="font-black text-slate-800 text-base">التعديل على المهام والمجالس (خاص بالمربية)</h3>
+                        <p class="text-xs text-slate-500">إدارة، تعديل، أو حذف المجالس والمهام المرسلة</p>
                     </div>
                 </div>
-                <button onclick="toggleGlobalStatsModal(false)" class="text-slate-400 hover:text-slate-600 transition p-2">
+                <button onclick="togglePollsManagementModal(false)" class="text-slate-400 hover:text-slate-600 transition p-2">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
 
-            <div id="global-all-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 overflow-y-auto custom-scrollbar p-1 flex-grow">
-                <!-- All Members Summary Injected Dynamically -->
+            <div id="modal-polls-container" class="space-y-3 overflow-y-auto custom-scrollbar p-1 flex-grow">
+                <!-- Dynamic Polls List for Editing -->
             </div>
 
             <div class="pt-3 border-t border-slate-100 text-center">
-                <button onclick="toggleGlobalStatsModal(false)" class="px-6 py-2 rounded-xl bg-[#0F4C3A] text-white text-xs font-bold shadow hover:bg-[#155D48] transition">
+                <button onclick="togglePollsManagementModal(false)" class="px-6 py-2 rounded-xl bg-[#0F4C3A] text-white text-xs font-bold shadow hover:bg-[#155D48] transition">
                     إغلاق النافذة
                 </button>
             </div>
@@ -232,29 +191,6 @@
             </p>
         </div>
     </footer>
-
-    <!-- Modal: Confirmation Modal (Security Prompt) -->
-    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 border border-emerald-100 text-center space-y-4">
-            <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto text-2xl font-bold">
-                <i class="fa-solid fa-user-shield"></i>
-            </div>
-            <h3 id="confirm-modal-text" class="font-extrabold text-slate-800 text-base">
-                هل أنتِ الطالبة [الاسم]؟
-            </h3>
-            <p class="text-xs text-slate-500">
-                الرجاء التأكد من هويتكِ قبل تسجيل الحالة، لضمان عدم التعديل على بيانات الزميلات.
-            </p>
-            <div class="flex items-center justify-center gap-3 pt-2">
-                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition">
-                    إلغاء
-                </button>
-                <button onclick="executePendingVote()" class="px-5 py-2 rounded-xl bg-[#0F4C3A] text-[#A3E635] text-xs font-bold shadow hover:bg-[#155D48] transition">
-                    نعم، أنا هي
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal: Add New Poll / Task -->
     <div id="poll-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -326,7 +262,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const dbRef = database.ref('sarah_wathaq_team_v4_data');
+        const dbRef = database.ref('sarah_wathaq_team_v6_data');
 
         const MEMBERS_DATA = [
             "آيَـة العامري", "يسرىٰ الشعيري", "أريج علي", "صفاء ميلاد", "رفيدة مصطفى",
@@ -349,10 +285,8 @@
             }
         ];
 
-        let searchQuery = '';
         let polls = INITIAL_POLLS;
         let votes = {}; 
-        let pendingVote = null;
 
         function sanitizeKey(key) {
             return key.replace(/[.#$\[\]]/g, "_");
@@ -388,24 +322,11 @@
             });
         }
 
-        function handleSearch() {
-            searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
-            updateUI();
-        }
-
         function updateUI() {
             updateHeaderStats();
             updateStatsPollDropdown();
             renderLiveStatistics();
-            renderGlobalStatistics();
-            renderPollsSection();
-            renderMembersCards();
-        }
-
-        function getTargetMembers() {
-            return MEMBERS_DATA.filter(memberName => {
-                return !searchQuery || memberName.toLowerCase().includes(searchQuery);
-            });
+            renderPollsManagementModalContent();
         }
 
         function updateHeaderStats() {
@@ -439,7 +360,7 @@
             }
         }
 
-        // إحصائيات المجلس المختار (كما كانت تماماً في الواجهة)
+        // إحصائيات المجلس المختار في الواجهة الرئيسية
         function renderLiveStatistics() {
             const pollId = document.getElementById('stats-poll-select').value;
             const container = document.getElementById('stats-breakdown-container');
@@ -530,161 +451,78 @@
             }
         }
 
-        // إحصائيات عامة داخل النافذة المنبثقة
-        function renderGlobalStatistics() {
-            const container = document.getElementById('global-all-members');
-            let attendanceCountMap = {};
-            MEMBERS_DATA.forEach(name => { attendanceCountMap[name] = 0; });
-
-            polls.forEach(poll => {
-                MEMBERS_DATA.forEach(name => {
-                    const status = votes[sanitizeKey(`${name}_${poll.id}`)];
-                    if (poll.type === 'EDUCATIONAL' && (status === 'FULL' || status === 'MORE_HALF' || status === 'HALF')) {
-                        attendanceCountMap[name]++;
-                    } else if (poll.type === 'GENERAL' && (status === 'DIRECT' || status === 'RECORD')) {
-                        attendanceCountMap[name]++;
-                    }
-                });
-            });
-
-            let allMembersSummary = Object.entries(attendanceCountMap);
-            if (allMembersSummary.length === 0 || polls.length === 0) {
-                container.innerHTML = '<div class="text-xs text-slate-400 col-span-full text-center py-4">لا توجد بيانات كافية بعد.</div>';
+        // محتوى نافذة إدارة وتعديل المهام للمربية
+        function renderPollsManagementModalContent() {
+            const container = document.getElementById('modal-polls-container');
+            if (polls.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 text-center py-6">لا توجد مجالس مضافة حالياً.</p>';
                 return;
             }
 
             let html = '';
-            allMembersSummary.forEach(([name, count]) => {
+            polls.forEach(poll => {
                 html += `
-                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl flex items-center justify-between">
-                        <span class="font-bold text-xs text-slate-800">${name}</span>
-                        <span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-lg">
-                            ${count} تفاعل
-                        </span>
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 mb-1">نوع المجلس:</label>
+                                <select id="edit-type-${poll.id}" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold bg-white">
+                                    <option value="EDUCATIONAL" ${poll.type === 'EDUCATIONAL' ? 'selected' : ''}>مجلس تربوي</option>
+                                    <option value="GENERAL" ${poll.type === 'GENERAL' ? 'selected' : ''}>مجلس عام</option>
+                                </select>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-[10px] font-bold text-slate-500 mb-1">عنوان المجلس:</label>
+                                <input type="text" id="edit-title-${poll.id}" value="${poll.title}" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold bg-white">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1">التفاصيل أو الملاحظات:</label>
+                            <input type="text" id="edit-desc-${poll.id}" value="${poll.desc || ''}" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs bg-white">
+                        </div>
+                        <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-200">
+                            <button onclick="updateExistingPoll('${poll.id}')" class="px-4 py-1.5 rounded-lg bg-[#0F4C3A] text-white text-xs font-bold hover:bg-[#155D48] transition">
+                                حفظ التعديل
+                            </button>
+                            <button onclick="deletePoll('${poll.id}')" class="px-4 py-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold hover:bg-rose-100 transition">
+                                حذف المهمة
+                            </button>
+                        </div>
                     </div>
                 `;
             });
             container.innerHTML = html;
         }
 
-        function toggleGlobalStatsModal(show) {
-            const modal = document.getElementById('global-stats-modal');
+        function togglePollsManagementModal(show) {
+            const modal = document.getElementById('polls-management-modal');
             if (show) {
-                renderGlobalStatistics();
+                renderPollsManagementModalContent();
                 modal.classList.remove('hidden');
             } else {
                 modal.classList.add('hidden');
             }
         }
 
-        function renderPollsSection() {
-            const container = document.getElementById('polls-container');
-            const badge = document.getElementById('polls-count-badge');
-            badge.textContent = `${polls.length} مهمة`;
+        function updateExistingPoll(pollId) {
+            const newTitle = document.getElementById(`edit-title-${pollId}`).value.trim();
+            const newType = document.getElementById(`edit-type-${pollId}`).value;
+            const newDesc = document.getElementById(`edit-desc-${pollId}`).value.trim();
 
-            if (polls.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 col-span-2 text-center py-4">لا توجد مجالس نشطة حالياً.</p>';
+            if (!newTitle) {
+                alert('الرجاء إدخال عنوان المجلس');
                 return;
             }
 
-            let html = '';
-            polls.forEach(poll => {
-                const typeLabel = poll.type === 'GENERAL' ? 'مجلس عام' : 'مجلس تربوي';
-                const badgeColor = poll.type === 'GENERAL' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800';
-                html += `
-                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-center justify-between gap-3">
-                        <div class="space-y-1">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeColor}">${typeLabel}</span>
-                            <h4 class="font-extrabold text-slate-800 text-sm">${poll.title}</h4>
-                            ${poll.desc ? `<p class="text-xs text-slate-500">${poll.desc}</p>` : ''}
-                        </div>
-                        <button onclick="deletePoll('${poll.id}')" class="text-slate-400 hover:text-rose-600 transition p-2" title="حذف المهمة">
-                            <i class="fa-solid fa-trash-can text-sm"></i>
-                        </button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function renderMembersCards() {
-            const grid = document.getElementById('members-cards-grid');
-            const badge = document.getElementById('members-count-badge');
-            const membersList = getTargetMembers();
-            badge.textContent = `عرض ${membersList.length} عضوة`;
-
-            if (membersList.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 font-medium">لم يتم العثور على نتائج مطابقة.</div>';
-                return;
-            }
-
-            const activePollId = document.getElementById('stats-poll-select').value;
-            const activePoll = polls.find(p => p.id === activePollId);
-            const isGeneral = activePoll ? activePoll.type === 'GENERAL' : true;
-
-            let html = '';
-            membersList.forEach((name, index) => {
-                const voteKey = sanitizeKey(`${name}_${activePollId}`);
-                const currentStatus = activePollId ? (votes[voteKey] || '') : '';
-
-                let buttonsHtml = '';
-                if (isGeneral) {
-                    buttonsHtml = `
-                        <button onclick="promptVote('${name}', 'DIRECT')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'DIRECT' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'}">حضرته مباشرة</button>
-                        <button onclick="promptVote('${name}', 'RECORD')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'RECORD' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-700'}">سمعت التسجيل</button>
-                        <button onclick="promptVote('${name}', 'NOT_YET')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'NOT_YET' ? 'bg-amber-600 text-white' : 'bg-amber-50 text-amber-700'}">لم أتمه بعد</button>
-                        <button onclick="promptVote('${name}', 'NOT_YET_ATTENDED')" class="py-1 px-1.5 rounded text-[11px] font-bold transition ${currentStatus === 'NOT_YET_ATTENDED' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700'}">لم أحضره بعد</button>
-                    `;
-                } else {
-                    buttonsHtml = `
-                        <button onclick="promptVote('${name}', 'FULL')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'FULL' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'}">حضرته كاملاً</button>
-                        <button onclick="promptVote('${name}', 'MORE_HALF')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'MORE_HALF' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-700'}">أكثر من النصف</button>
-                        <button onclick="promptVote('${name}', 'HALF')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'HALF' ? 'bg-cyan-600 text-white' : 'bg-cyan-50 text-cyan-700'}">النصف</button>
-                        <button onclick="promptVote('${name}', 'LESS_HALF')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'LESS_HALF' ? 'bg-amber-600 text-white' : 'bg-amber-50 text-amber-700'}">أقل من النصف</button>
-                        <button onclick="promptVote('${name}', 'ABSENT')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'ABSENT' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700'}">لم أحضر</button>
-                        <button onclick="promptVote('${name}', 'EXCUSED')" class="py-1 px-1 rounded text-[10px] font-bold transition ${currentStatus === 'EXCUSED' ? 'bg-purple-600 text-white' : 'bg-purple-50 text-purple-700'}">معتذرة</button>
-                    `;
+            polls = polls.map(p => {
+                if (p.id === pollId) {
+                    return { ...p, title: newTitle, type: newType, desc: newDesc };
                 }
-
-                html += `
-                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-3">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#0F4C3A] font-bold text-xs flex items-center justify-center border border-emerald-100">${index + 1}</div>
-                            <h4 class="font-extrabold text-slate-800 text-sm">${name}</h4>
-                        </div>
-                        <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-100">
-                            ${buttonsHtml}
-                        </div>
-                        ${currentStatus ? `<div class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-1 rounded text-center">الحالة المسجلة: تم الحفظ (يمكنك التعديل لاحقاً)</div>` : ''}
-                    </div>
-                `;
+                return p;
             });
-            grid.innerHTML = html;
-        }
 
-        function promptVote(memberName, status) {
-            const activePollId = document.getElementById('stats-poll-select').value;
-            if (!activePollId) {
-                showToast('الرجاء اختيار مجلس أولاً', 'error');
-                return;
-            }
-            pendingVote = { memberName, status, pollId: activePollId };
-            document.getElementById('confirm-modal-text').textContent = `هل أنتِ الطالبة (${memberName})؟`;
-            document.getElementById('confirm-modal').classList.remove('hidden');
-        }
-
-        function closeConfirmModal() {
-            document.getElementById('confirm-modal').classList.add('hidden');
-            pendingVote = null;
-        }
-
-        function executePendingVote() {
-            if (!pendingVote) return;
-            const voteKey = sanitizeKey(`${pendingVote.memberName}_${pendingVote.pollId}`);
-            votes[voteKey] = pendingVote.status;
             saveToCloud();
-            closeConfirmModal();
-            showToast('تم التعديل وحفظ الحالة بنجاح!', 'success');
+            showToast('تم تعديل وحفظ بيانات المجلس بنجاح!', 'success');
         }
 
         function togglePollModal(show) {
@@ -719,6 +557,7 @@
             if (confirm('هل أنتِ متأكدة من حذف هذا المجلس؟')) {
                 polls = polls.filter(p => p.id !== pollId);
                 saveToCloud();
+                renderPollsManagementModalContent();
                 showToast('تم حذف المهمة بنجاح.', 'success');
             }
         }
